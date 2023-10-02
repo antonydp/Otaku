@@ -91,6 +91,7 @@ class Sources(DisplayWindow):
         media_type = args['media_type']
         rescrape = args['rescrape']
         get_backup = args['get_backup']
+        download = args['download']
         self.setProperty('process_started', 'true')
         duration = args['duration']
 
@@ -111,50 +112,54 @@ class Sources(DisplayWindow):
             self.remainingProviders.remove('nyaa')
             self.remainingProviders.remove('animetosho')
 
-        if control.getSetting('provider.gogo') == 'true':
-            self.threads.append(
-                threading.Thread(target=self.gogo_worker, args=(anilist_id, episode, get_backup, rescrape)))
-        else:
-            self.remainingProviders.remove('gogo')
+        if not download:
+            if control.getSetting('provider.gogo') == 'true':
+                self.threads.append(
+                    threading.Thread(target=self.gogo_worker, args=(anilist_id, episode, get_backup, rescrape)))
+            else:
+                self.remainingProviders.remove('gogo')
 
-        if control.getSetting('provider.nineanime') == 'true':
-            self.threads.append(
-                threading.Thread(target=self.nine_worker, args=(anilist_id, episode, get_backup, rescrape)))
-        else:
-            self.remainingProviders.remove('9anime')
+            if control.getSetting('provider.nineanime') == 'true':
+                self.threads.append(
+                    threading.Thread(target=self.nine_worker, args=(anilist_id, episode, get_backup, rescrape)))
+            else:
+                self.remainingProviders.remove('9anime')
 
-        if control.getSetting('provider.animix') == 'true':
-            self.threads.append(
-                threading.Thread(target=self.animixplay_worker, args=(anilist_id, episode, get_backup, rescrape,)))
-        else:
-            self.remainingProviders.remove('animix')
+            if control.getSetting('provider.animix') == 'true':
+                self.threads.append(
+                    threading.Thread(target=self.animixplay_worker, args=(anilist_id, episode, get_backup, rescrape,)))
+            else:
+                self.remainingProviders.remove('animix')
 
-        if control.getSetting('provider.animepahe') == 'true':
-            self.threads.append(
-                threading.Thread(target=self.animepahe_worker, args=(anilist_id, episode, get_backup, rescrape,)))
-        else:
-            self.remainingProviders.remove('animepahe')
+            if control.getSetting('provider.animepahe') == 'true':
+                self.threads.append(
+                    threading.Thread(target=self.animepahe_worker, args=(anilist_id, episode, get_backup, rescrape,)))
+            else:
+                self.remainingProviders.remove('animepahe')
 
-        if control.getSetting('provider.aniwatch') == 'true':
-            self.threads.append(
-                threading.Thread(target=self.aniwatch_worker, args=(anilist_id, episode, get_backup, rescrape,)))
-        else:
-            self.remainingProviders.remove('aniwatch')
+            if control.getSetting('provider.aniwatch') == 'true':
+                self.threads.append(
+                    threading.Thread(target=self.aniwatch_worker, args=(anilist_id, episode, get_backup, rescrape,)))
+            else:
+                self.remainingProviders.remove('aniwatch')
 
-        if control.getSetting('provider.animess') == 'true':
-            self.threads.append(
-                threading.Thread(target=self.animess_worker, args=(anilist_id, episode, get_backup, rescrape,)))
-        else:
-            self.remainingProviders.remove('otakuanimes')
+            if control.getSetting('provider.animess') == 'true':
+                self.threads.append(
+                    threading.Thread(target=self.animess_worker, args=(anilist_id, episode, get_backup, rescrape,)))
+            else:
+                self.remainingProviders.remove('otakuanimes')
 
-        if control.getSetting('provider.animelatino') == 'true':
-            self.threads.append(
-                threading.Thread(target=self.animelatino_worker, args=(anilist_id, episode, get_backup, rescrape,)))
-        else:
-            self.remainingProviders.remove('animelatino')
+            if control.getSetting('provider.animelatino') == 'true':
+                self.threads.append(
+                    threading.Thread(target=self.animelatino_worker, args=(anilist_id, episode, get_backup, rescrape,)))
+            else:
+                self.remainingProviders.remove('animelatino')
 
-        self.threads.append(
-            threading.Thread(target=self.user_cloud_inspection, args=(query, anilist_id, episode, media_type, rescrape)))
+            self.threads.append(
+                threading.Thread(target=self.user_cloud_inspection, args=(query, anilist_id, episode, media_type, rescrape)))
+        else:
+            for embeds in self.embedProviders:
+                self.remainingProviders.remove(embeds)
 
         for i in self.threads:
             i.start()
