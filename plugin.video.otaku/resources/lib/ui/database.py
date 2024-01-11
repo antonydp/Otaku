@@ -967,6 +967,15 @@ def clearAllSearchHistory():
         control.try_release_lock(control.searchHistoryTVDB_lock)
 
 
+def removeSearchHistory():
+
+
+def removeSearchHistoryMovie():
+    
+
+def removeSearchHistoryTV():
+
+
 def clearSearchHistory():
     try:
         control.searchHistoryDB_lock.acquire()

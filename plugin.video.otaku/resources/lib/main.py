@@ -1766,6 +1766,11 @@ def SEARCH_HISTORY(payload, params):
         return SEARCH(payload, params)
 
 
+@route('remove_history')
+def REMOVE_HISTORY(payload, params):
+    database.removeSearchHistory()
+
+
 @route('clear_history')
 def CLEAR_HISTORY(payload, params):
     database.clearSearchHistory()
@@ -2038,12 +2043,16 @@ def SEARCH_HISTORY_MOVIE(payload, params):
         return control.draw_items(_BROWSER.search_history_movie(history), contentType="addons", draw_cm=False)
     else:
         return SEARCH_MOVIE(payload, params)
+    
+
+@route('remove_history_movie')
+def REMOVE_HISTORY_MOVIE(payload, params):
+    database.removeSearchHistoryMovie()
 
 
 @route('clear_history_movie')
 def CLEAR_HISTORY_MOVIE(payload, params):
     database.clearSearchHistoryMovie()
-    return
 
 
 @route('search_movie')
@@ -2316,6 +2325,11 @@ def SEARCH_HISTORY_TV(payload, params):
         return control.draw_items(_BROWSER.search_history_tv(history), contentType="addons", draw_cm=False)
     else:
         return SEARCH_TV(payload, params)
+
+
+@route('remove_history_tv')
+def REMOVE_HISTORY_TV(payload, params):
+    database.removeSearchHistoryTV()
 
 
 @route('clear_history_tv')
